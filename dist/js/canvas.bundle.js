@@ -125,6 +125,84 @@ __webpack_require__.r(__webpack_exports__);
 
 /***/ }),
 
+/***/ "./src/img/player/bullet.png":
+/*!***********************************!*\
+  !*** ./src/img/player/bullet.png ***!
+  \***********************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony default export */ __webpack_exports__["default"] = (__webpack_require__.p + "e427ac7f38c59471609e17cf8df5ab83.png");
+
+/***/ }),
+
+/***/ "./src/img/player/player-die.png":
+/*!***************************************!*\
+  !*** ./src/img/player/player-die.png ***!
+  \***************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony default export */ __webpack_exports__["default"] = (__webpack_require__.p + "5aa6fd65428823ec3b32b2f8a435428f.png");
+
+/***/ }),
+
+/***/ "./src/img/player/player-idle.png":
+/*!****************************************!*\
+  !*** ./src/img/player/player-idle.png ***!
+  \****************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony default export */ __webpack_exports__["default"] = (__webpack_require__.p + "704689d2b7cbbe95851878113c0649b8.png");
+
+/***/ }),
+
+/***/ "./src/img/player/player-jump.png":
+/*!****************************************!*\
+  !*** ./src/img/player/player-jump.png ***!
+  \****************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony default export */ __webpack_exports__["default"] = (__webpack_require__.p + "f56f40b3915cae68aae40ea49a0e0a46.png");
+
+/***/ }),
+
+/***/ "./src/img/player/player-run.png":
+/*!***************************************!*\
+  !*** ./src/img/player/player-run.png ***!
+  \***************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony default export */ __webpack_exports__["default"] = (__webpack_require__.p + "4d5164e4e2a83b541d7ef2275fbb275f.png");
+
+/***/ }),
+
+/***/ "./src/img/player/player-shoot.png":
+/*!*****************************************!*\
+  !*** ./src/img/player/player-shoot.png ***!
+  \*****************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony default export */ __webpack_exports__["default"] = (__webpack_require__.p + "1346e517677b421c4645f4db8c043dee.png");
+
+/***/ }),
+
 /***/ "./src/js/canvas.js":
 /*!**************************!*\
   !*** ./src/js/canvas.js ***!
@@ -137,6 +215,12 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _img_background_png__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../img/background.png */ "./src/img/background.png");
 /* harmony import */ var _img_floor_png__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../img/floor.png */ "./src/img/floor.png");
 /* harmony import */ var _img_back_structures_png__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../img/back-structures.png */ "./src/img/back-structures.png");
+/* harmony import */ var _img_player_player_idle_png__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../img/player/player-idle.png */ "./src/img/player/player-idle.png");
+/* harmony import */ var _img_player_player_run_png__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../img/player/player-run.png */ "./src/img/player/player-run.png");
+/* harmony import */ var _img_player_player_jump_png__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ../img/player/player-jump.png */ "./src/img/player/player-jump.png");
+/* harmony import */ var _img_player_player_shoot_png__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ../img/player/player-shoot.png */ "./src/img/player/player-shoot.png");
+/* harmony import */ var _img_player_bullet_png__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ../img/player/bullet.png */ "./src/img/player/bullet.png");
+/* harmony import */ var _img_player_player_die_png__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ../img/player/player-die.png */ "./src/img/player/player-die.png");
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
 function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
@@ -146,12 +230,18 @@ function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _d
 
 
 
+
+
+
+
+
+
 var canvas = document.querySelector('canvas');
 var ctx = canvas.getContext('2d');
 canvas.width = 960;
 canvas.height = 540; // utils ----------------------------------------------
 
-var gravity = 2;
+var gravity = 0.2;
 ctx.fillRect(0, 0, canvas.width, canvas.height); //image 
 
 function createImage(imageSrc) {
@@ -180,21 +270,24 @@ function rectangularCollision(_ref) {
   var rectangle1 = _ref.rectangle1,
       rectangle2 = _ref.rectangle2;
   return rectangle1.attackBox.position.x + rectangle1.attackBox.width >= rectangle2.position.x && rectangle1.attackBox.position.x <= rectangle2.position.x + rectangle2.width && rectangle1.attackBox.position.y + rectangle1.attackBox.height >= rectangle2.position.y && rectangle1.attackBox.position.y <= rectangle2.position.y + rectangle2.height && rectangle1.isAttacking;
-} // collision detection for platform 
+} // // collision detection for platform 
+// function platformCollision() {
+//   platforms.forEach(platform =>
+//   (
+//     player.position.y + player.height <= platform.position.y &&
+//     player.position.x + player.width >= platform.position.x &&
+//     player.position.x <= platform.position.x + platform.width && player.position.y + player.height + player.velocity.y >= platform.position.y
+//   )
+//   )
+// }
 
-
-function platformCollision() {
-  platforms.forEach(function (platform) {
-    return player.position.y + player.height <= platform.position.y && player.position.x + player.width >= platform.position.x && player.position.x <= platform.position.x + platform.width && player.position.y + player.height + player.velocity.y >= platform.position.y;
-  });
-}
 
 window.addEventListener('keydown', function (event) {
   switch (event.key) {
     case 'w':
       platforms.forEach(function (platform) {
         if (player.position.y + player.height >= canvas.height || player.position.y + player.height >= platform.position.y - 5 && player.position.x + player.width >= platform.position.x && player.position.x <= platform.position.x + platform.width) {
-          player.velocity.y = -25;
+          player.velocity.y = -10;
         }
       });
       break;
@@ -258,13 +351,25 @@ window.addEventListener('keyup', function (event) {
 
 var Fighter = /*#__PURE__*/function () {
   function Fighter(_ref2) {
-    var position = _ref2.position,
+    var _ref2$offset = _ref2.offset,
+        offset = _ref2$offset === void 0 ? {
+      x: 0,
+      y: 0
+    } : _ref2$offset,
+        position = _ref2.position,
         velocity = _ref2.velocity,
         _ref2$color = _ref2.color,
         color = _ref2$color === void 0 ? 'red' : _ref2$color,
-        _ref2$offset = _ref2.offset,
-        offset = _ref2$offset === void 0 ? 0 : _ref2$offset,
-        attackBox = _ref2.attackBox;
+        _ref2$attackBoxOffset = _ref2.attackBoxOffset,
+        attackBoxOffset = _ref2$attackBoxOffset === void 0 ? 0 : _ref2$attackBoxOffset,
+        attackBox = _ref2.attackBox,
+        image = _ref2.image,
+        scale = _ref2.scale,
+        _ref2$framesMax = _ref2.framesMax,
+        framesMax = _ref2$framesMax === void 0 ? 1 : _ref2$framesMax,
+        sprites = _ref2.sprites,
+        framesHold = _ref2.framesHold,
+        framesCurrent = _ref2.framesCurrent;
 
     _classCallCheck(this, Fighter);
 
@@ -275,30 +380,66 @@ var Fighter = /*#__PURE__*/function () {
     this.lastKey;
     this.attackBox = attackBox;
     this.color = color;
-    this.offset = offset;
+    this.attackBoxOffset = attackBoxOffset;
     this.isAttacking = false;
     this.health = 100;
     this.attackBox.position = {
       x: this.position.x,
       y: this.position.y
     };
+    this.scale = scale;
+    this.framesMax = framesMax;
+    this.framesCurrent = framesCurrent;
+    this.framesElapsed = 0;
+    this.framesHold = framesHold;
+    this.offset = offset;
+    this.image = image;
+    this.lookingRight = true;
+    this.sprites = sprites;
+    this.dead = false;
+
+    for (var sprite in this.sprites) {
+      sprites[sprite].image = new Image();
+      sprites[sprite].image.src = sprites[sprite].imageSrc;
+    }
   }
 
   _createClass(Fighter, [{
     key: "draw",
     value: function draw() {
       // draw out the player
-      ctx.fillStyle = this.color;
-      ctx.fillRect(this.position.x, this.position.y, this.width, this.height); // draw out the attackBox
-      // if (this.isAttacking) {
+      // ctx.fillStyle = this.color
+      // ctx.fillRect(this.position.x, this.position.y, this.width, this.height)
+      if (this.lookingRight) {
+        ctx.drawImage(this.image, this.framesCurrent * (this.image.width / this.framesMax), 0, this.image.width / this.framesMax, this.image.height, this.position.x - this.offset.x, this.position.y - this.offset.y, this.image.width / this.framesMax * this.scale, this.image.height * this.scale);
+      } else {
+        ctx.translate(this.position.x + this.image.width, this.position.y);
+        ctx.scale(-1, 1);
+        ctx.drawImage(this.image, this.framesCurrent * (this.image.width / this.framesMax), 0, this.image.width / this.framesMax, this.image.height, this.image.width - this.offset.x - 40, this.image.height + 20, this.image.width / this.framesMax * this.scale, this.image.height * this.scale);
+        ctx.setTransform(1, 0, 0, 1, 0, 1);
+      }
 
-      ctx.fillStyle = 'green';
-      ctx.fillRect(this.attackBox.position.x, this.attackBox.position.y, this.attackBox.width, this.attackBox.height);
+      var Bullet = createImage(_img_player_bullet_png__WEBPACK_IMPORTED_MODULE_7__["default"]); //draw out the attackBox
 
-      if (!this.isAttacking) {
-        this.attackBox.position.x = this.position.x - this.offset;
-      } // }
+      if (this.isAttacking) {
+        ctx.drawImage(Bullet, this.attackBox.position.x - this.attackBoxOffset.x, this.attackBox.position.y - -this.attackBoxOffset.y);
+      } else {
+        this.attackBox.position.x = this.position.x - this.attackBoxOffset.x;
+        this.attackBox.position.y = this.position.y - this.attackBoxOffset.y;
+      }
+    }
+  }, {
+    key: "animateFrames",
+    value: function animateFrames() {
+      this.framesElapsed++;
 
+      if (this.framesElapsed % this.framesHold === 0) {
+        if (this.framesCurrent < this.framesMax - 1) {
+          this.framesCurrent++;
+        } else {
+          this.framesCurrent = 0;
+        }
+      }
     } //to update our player on every render
 
   }, {
@@ -306,6 +447,11 @@ var Fighter = /*#__PURE__*/function () {
     value: function update() {
       // to draw our player on every render
       this.draw();
+
+      if (!this.dead) {
+        this.animateFrames();
+      }
+
       this.attackBox.position.y = this.position.y; //movement
 
       this.position.y += this.velocity.y;
@@ -318,7 +464,11 @@ var Fighter = /*#__PURE__*/function () {
       }
 
       if (this.isAttacking) {
-        this.attackBox.position.x += this.attackBox.velocity;
+        if (this.lookingRight) {
+          this.attackBox.position.x += this.attackBox.velocity;
+        } else {
+          this.attackBox.position.x -= this.attackBox.velocity;
+        }
       }
     }
   }, {
@@ -335,6 +485,67 @@ var Fighter = /*#__PURE__*/function () {
     key: "takeHit",
     value: function takeHit() {
       this.health -= 10;
+
+      if (this.health <= 0) {
+        this.switchSprite('die');
+      }
+    }
+  }, {
+    key: "switchSprite",
+    value: function switchSprite(sprite) {
+      if (this.image === this.sprites.die.image) {
+        if (this.framesCurrent === this.sprites.die.framesMax - 1) {
+          this.dead = true;
+        }
+
+        return;
+      }
+
+      switch (sprite) {
+        case 'idle':
+          if (this.image !== this.sprites.idle.image) {
+            this.image = this.sprites.idle.image;
+            this.framesMax = this.sprites.idle.framesMax;
+            this.framesCurrent = 0;
+          }
+
+          break;
+
+        case 'run':
+          if (this.image !== this.sprites.run.image) {
+            this.image = this.sprites.run.image;
+            this.framesMax = this.sprites.run.framesMax;
+            this.framesCurrent = 0;
+          }
+
+          break;
+
+        case 'jump':
+          if (this.image !== this.sprites.jump.image) {
+            this.image = this.sprites.jump.image;
+            this.framesMax = this.sprites.jump.framesMax;
+            this.framesCurrent = 0;
+          }
+
+          break;
+
+        case 'shoot':
+          if (this.image !== this.sprites.shoot.image) {
+            this.image = this.sprites.shoot.image;
+            this.framesMax = this.sprites.shoot.framesMax;
+            this.framesCurrent = 0;
+          }
+
+          break;
+
+        case 'die':
+          if (this.image !== this.sprites.die.image) {
+            this.image = this.sprites.die.image;
+            this.framesMax = this.sprites.die.framesMax;
+            framesCurrent = 0;
+          }
+
+      }
     }
   }]);
 
@@ -373,18 +584,23 @@ var Background = /*#__PURE__*/function () {
         width = _ref4$width === void 0 ? image.width : _ref4$width,
         _ref4$height = _ref4.height,
         height = _ref4$height === void 0 ? image.height : _ref4$height,
-        offset = _ref4.offset;
+        _ref4$offset = _ref4.offset,
+        offset = _ref4$offset === void 0 ? {} : _ref4$offset;
 
     _classCallCheck(this, Background);
 
-    this.position = position, this.image = image, this.width = width, this.height = height;
-    this.offset = offset;
+    this.position = position, this.image = image, this.width = width, this.height = height, this.offset = offset;
   }
 
   _createClass(Background, [{
     key: "draw",
     value: function draw() {
       ctx.drawImage(this.image, this.position.x, this.position.y, this.width, this.height);
+    }
+  }, {
+    key: "update",
+    value: function update() {
+      this.draw();
     }
   }]);
 
@@ -434,8 +650,8 @@ for (var _i = 0; _i <= 50; _i++) {
 
 var platformImage = createImage(_img_floor_png__WEBPACK_IMPORTED_MODULE_1__["default"]); // const platforms = [
 //   new Platform({
-// position: { x: 0, y: 400 },
-// image: platformImage
+//     position: { x: 0, y: 400 },
+//     image: platformImage
 //   }
 //   ),
 //   new Platform({
@@ -470,45 +686,99 @@ var player = new Fighter({
   attackBox: {
     position: {
       x: 100,
-      y: 0
+      y: 100
     },
     width: 100,
     height: 50,
     velocity: 20
+  },
+  attackBoxOffset: {
+    x: 0,
+    y: 113
+  },
+  image: _img_player_player_idle_png__WEBPACK_IMPORTED_MODULE_3__["default"],
+  scale: 2,
+  framesMax: 4,
+  framesHold: 18,
+  offset: {
+    x: 0,
+    y: -67
+  },
+  sprites: {
+    idle: {
+      imageSrc: _img_player_player_idle_png__WEBPACK_IMPORTED_MODULE_3__["default"],
+      framesMax: 4
+    },
+    run: {
+      imageSrc: _img_player_player_run_png__WEBPACK_IMPORTED_MODULE_4__["default"],
+      framesMax: 11
+    },
+    jump: {
+      imageSrc: _img_player_player_jump_png__WEBPACK_IMPORTED_MODULE_5__["default"],
+      framesMax: 6
+    },
+    shoot: {
+      imageSrc: _img_player_player_shoot_png__WEBPACK_IMPORTED_MODULE_6__["default"],
+      framesMax: 2
+    },
+    die: {
+      imageSrc: _img_player_player_die_png__WEBPACK_IMPORTED_MODULE_8__["default"],
+      framesMax: 4
+    }
   }
 }); // Enemies
 
 var enemies = [new Fighter({
   position: {
-    x: 400,
-    y: 100
+    x: 100,
+    y: 0
   },
   velocity: {
     x: 0,
     y: 0
   },
-  color: 'blue',
-  offset: 50,
   attackBox: {
+    position: {
+      x: 100,
+      y: 100
+    },
     width: 100,
     height: 50,
-    velocity: -20
-  }
-}), new Fighter({
-  position: {
-    x: 700,
-    y: 100
+    velocity: 20
   },
-  velocity: {
+  attackBoxOffset: {
     x: 0,
-    y: 0
+    y: 113
   },
-  color: 'blue',
-  offset: 50,
-  attackBox: {
-    width: 100,
-    height: 50,
-    velocity: -20
+  image: _img_player_player_idle_png__WEBPACK_IMPORTED_MODULE_3__["default"],
+  scale: 2,
+  framesMax: 4,
+  framesHold: 18,
+  offset: {
+    x: 0,
+    y: -67
+  },
+  sprites: {
+    idle: {
+      imageSrc: _img_player_player_idle_png__WEBPACK_IMPORTED_MODULE_3__["default"],
+      framesMax: 4
+    },
+    run: {
+      imageSrc: _img_player_player_run_png__WEBPACK_IMPORTED_MODULE_4__["default"],
+      framesMax: 11
+    },
+    jump: {
+      imageSrc: _img_player_player_jump_png__WEBPACK_IMPORTED_MODULE_5__["default"],
+      framesMax: 6
+    },
+    shoot: {
+      imageSrc: _img_player_player_shoot_png__WEBPACK_IMPORTED_MODULE_6__["default"],
+      framesMax: 2
+    },
+    die: {
+      imageSrc: _img_player_player_die_png__WEBPACK_IMPORTED_MODULE_8__["default"],
+      framesMax: 4
+    }
   }
 })]; // enemy attack
 
@@ -524,7 +794,7 @@ function animate() {
   ctx.fillRect(0, 0, canvas.width, canvas.height); // draw backgrounds
 
   backgrounds.forEach(function (background) {
-    return background.draw();
+    return background.update();
   }); //platform collision   
 
   platforms.forEach(function (platform) {
@@ -546,11 +816,16 @@ function animate() {
   player.velocity.x = 0;
 
   if (keys.a.pressed && player.lastKey === 'a' && player.position.x >= 100) {
+    player.switchSprite('run');
     player.velocity.x = -5;
+    player.lookingRight = false;
   } else if (keys.d.pressed && player.lastKey === 'd' && player.position.x <= 400) {
+    player.switchSprite('run');
     player.velocity.x = 5;
+    player.lookingRight = true;
   } else {
     if (keys.d.pressed) {
+      player.switchSprite('run');
       platforms.forEach(function (platform) {
         return platform.position.x -= 5;
       });
@@ -561,6 +836,8 @@ function animate() {
         enemy.position.x -= 5;
       });
     } else if (keys.a.pressed) {
+      player.switchSprite('run');
+      player.lookingRight = false;
       platforms.forEach(function (platform) {
         return platform.position.x += 5;
       });
@@ -570,6 +847,14 @@ function animate() {
       enemies.forEach(function (enemy) {
         enemy.position.x += 5;
       });
+    } else if (player.velocity.y < 0) {
+      player.switchSprite('jump');
+    } else {
+      player.switchSprite('idle');
+    }
+
+    if (player.isAttacking) {
+      player.switchSprite('shoot');
     }
   } // enemy movement
 
@@ -603,12 +888,12 @@ function animate() {
       console.log("player health: ".concat(player.health));
     }
   }); //update enemy
-
-  enemies.forEach(function (enemy) {
-    if (enemy.health > 0) {
-      enemy.update();
-    }
-  }); // update player 
+  // enemies.forEach(enemy => {
+  //   if (enemy.health > 0) {
+  //     enemy.update()
+  //   }
+  // })
+  // update player 
 
   player.update();
 }
