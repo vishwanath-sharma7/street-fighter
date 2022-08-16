@@ -112,6 +112,19 @@ __webpack_require__.r(__webpack_exports__);
 
 /***/ }),
 
+/***/ "./src/img/enemy/alien-enemy-walk.png":
+/*!********************************************!*\
+  !*** ./src/img/enemy/alien-enemy-walk.png ***!
+  \********************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony default export */ __webpack_exports__["default"] = (__webpack_require__.p + "fba60699ca6e329bcf00705313e9e38f.png");
+
+/***/ }),
+
 /***/ "./src/img/floor.png":
 /*!***************************!*\
   !*** ./src/img/floor.png ***!
@@ -122,6 +135,32 @@ __webpack_require__.r(__webpack_exports__);
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony default export */ __webpack_exports__["default"] = (__webpack_require__.p + "c16a6adce9c2ff4beaf3bb77bcca67db.png");
+
+/***/ }),
+
+/***/ "./src/img/ghost-shriek.png":
+/*!**********************************!*\
+  !*** ./src/img/ghost-shriek.png ***!
+  \**********************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony default export */ __webpack_exports__["default"] = (__webpack_require__.p + "60f34445a968f0017ba56090e66891cc.png");
+
+/***/ }),
+
+/***/ "./src/img/hell-hound-run.png":
+/*!************************************!*\
+  !*** ./src/img/hell-hound-run.png ***!
+  \************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony default export */ __webpack_exports__["default"] = (__webpack_require__.p + "29919a343ec71a92c2663bdaa4e9a696.png");
 
 /***/ }),
 
@@ -221,6 +260,9 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _img_player_player_shoot_png__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ../img/player/player-shoot.png */ "./src/img/player/player-shoot.png");
 /* harmony import */ var _img_player_bullet_png__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ../img/player/bullet.png */ "./src/img/player/bullet.png");
 /* harmony import */ var _img_player_player_die_png__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ../img/player/player-die.png */ "./src/img/player/player-die.png");
+/* harmony import */ var _img_enemy_alien_enemy_walk_png__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! ../img/enemy/alien-enemy-walk.png */ "./src/img/enemy/alien-enemy-walk.png");
+/* harmony import */ var _img_ghost_shriek_png__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! ../img/ghost-shriek.png */ "./src/img/ghost-shriek.png");
+/* harmony import */ var _img_hell_hound_run_png__WEBPACK_IMPORTED_MODULE_11__ = __webpack_require__(/*! ../img/hell-hound-run.png */ "./src/img/hell-hound-run.png");
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
 function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
@@ -236,9 +278,12 @@ function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _d
 
 
 
+
+
+
 var canvas = document.querySelector('canvas');
 var ctx = canvas.getContext('2d');
-canvas.width = 960;
+canvas.width = 2480;
 canvas.height = 540; // utils ----------------------------------------------
 
 var gravity = 0.2;
@@ -257,19 +302,13 @@ var keys = {
   },
   d: {
     pressed: false
-  },
-  ArrowLeft: {
-    pressed: false
-  },
-  ArrowRight: {
-    pressed: false
   }
 }; //rectangular collision 
 
 function rectangularCollision(_ref) {
   var rectangle1 = _ref.rectangle1,
       rectangle2 = _ref.rectangle2;
-  return rectangle1.attackBox.position.x + rectangle1.attackBox.width >= rectangle2.position.x && rectangle1.attackBox.position.x <= rectangle2.position.x + rectangle2.width && rectangle1.attackBox.position.y + rectangle1.attackBox.height >= rectangle2.position.y && rectangle1.attackBox.position.y <= rectangle2.position.y + rectangle2.height && rectangle1.isAttacking;
+  return rectangle1.attackBox.position.x + rectangle1.attackBox.width >= rectangle2.position.x && rectangle1.attackBox.position.x <= rectangle2.position.x + rectangle2.width && rectangle1.attackBox.position.y + rectangle1.attackBox.height >= rectangle2.position.y && rectangle1.attackBox.position.y <= rectangle2.position.y + rectangle2.height;
 } // // collision detection for platform 
 // function platformCollision() {
 //   platforms.forEach(platform =>
@@ -290,6 +329,11 @@ window.addEventListener('keydown', function (event) {
           player.velocity.y = -10;
         }
       });
+      airPlatforms.forEach(function (platform) {
+        if (player.position.y + player.height >= canvas.height || player.position.y + player.height >= platform.position.y - 5 && player.position.x + player.width >= platform.position.x && player.position.x <= platform.position.x + platform.width) {
+          player.velocity.y = -10;
+        }
+      });
       break;
 
     case ' ':
@@ -305,27 +349,6 @@ window.addEventListener('keydown', function (event) {
       keys.d.pressed = true;
       player.lastKey = 'd';
       break;
-
-    case 'ArrowLeft':
-      keys.ArrowLeft.pressed = true;
-      enemy.lastKey = 'ArrowLeft';
-      break;
-
-    case 'ArrowRight':
-      keys.ArrowRight.pressed = true;
-      enemy.lastKey = 'ArrowRight';
-      break;
-
-    case 'ArrowUp':
-      if (enemy.position.y + enemy.height >= canvas.height) {
-        enemy.velocity.y = -25;
-      }
-
-      break;
-
-    case 'ArrowDown':
-      enemy.shoot();
-      break;
   }
 });
 window.addEventListener('keyup', function (event) {
@@ -337,20 +360,12 @@ window.addEventListener('keyup', function (event) {
     case 'd':
       keys.d.pressed = false;
       break;
-
-    case 'ArrowLeft':
-      keys.ArrowLeft.pressed = false;
-      break;
-
-    case 'ArrowRight':
-      keys.ArrowRight.pressed = false;
-      break;
   }
 }); // Classes ---------------------------------------------------------------------
 // Player Class 
 
-var Fighter = /*#__PURE__*/function () {
-  function Fighter(_ref2) {
+var Player = /*#__PURE__*/function () {
+  function Player(_ref2) {
     var _ref2$offset = _ref2.offset,
         offset = _ref2$offset === void 0 ? {
       x: 0,
@@ -369,9 +384,11 @@ var Fighter = /*#__PURE__*/function () {
         framesMax = _ref2$framesMax === void 0 ? 1 : _ref2$framesMax,
         sprites = _ref2.sprites,
         framesHold = _ref2.framesHold,
-        framesCurrent = _ref2.framesCurrent;
+        framesCurrent = _ref2.framesCurrent,
+        _ref2$canFall = _ref2.canFall,
+        canFall = _ref2$canFall === void 0 ? true : _ref2$canFall;
 
-    _classCallCheck(this, Fighter);
+    _classCallCheck(this, Player);
 
     this.position = position;
     this.velocity = velocity;
@@ -397,6 +414,7 @@ var Fighter = /*#__PURE__*/function () {
     this.lookingRight = true;
     this.sprites = sprites;
     this.dead = false;
+    this.canFall = canFall;
 
     for (var sprite in this.sprites) {
       sprites[sprite].image = new Image();
@@ -404,7 +422,7 @@ var Fighter = /*#__PURE__*/function () {
     }
   }
 
-  _createClass(Fighter, [{
+  _createClass(Player, [{
     key: "draw",
     value: function draw() {
       // draw out the player
@@ -457,17 +475,19 @@ var Fighter = /*#__PURE__*/function () {
       this.position.y += this.velocity.y;
       this.position.x += this.velocity.x; //gravity 
 
-      if (this.position.y + this.height + this.velocity.y >= canvas.height) {
-        this.velocity.y = 0;
-      } else {
-        this.velocity.y += gravity;
-      }
-
-      if (this.isAttacking) {
-        if (this.lookingRight) {
-          this.attackBox.position.x += this.attackBox.velocity;
+      if (this.canFall) {
+        if (this.position.y + this.height + this.velocity.y >= canvas.height) {
+          this.velocity.y = 0;
         } else {
-          this.attackBox.position.x -= this.attackBox.velocity;
+          this.velocity.y += gravity;
+        }
+
+        if (this.isAttacking) {
+          if (this.lookingRight) {
+            this.attackBox.position.x += this.attackBox.velocity;
+          } else {
+            this.attackBox.position.x -= this.attackBox.velocity;
+          }
         }
       }
     }
@@ -484,7 +504,7 @@ var Fighter = /*#__PURE__*/function () {
   }, {
     key: "takeHit",
     value: function takeHit() {
-      this.health -= 10;
+      this.health -= 30;
 
       if (this.health <= 0) {
         this.switchSprite('die');
@@ -542,14 +562,13 @@ var Fighter = /*#__PURE__*/function () {
           if (this.image !== this.sprites.die.image) {
             this.image = this.sprites.die.image;
             this.framesMax = this.sprites.die.framesMax;
-            framesCurrent = 0;
           }
 
       }
     }
   }]);
 
-  return Fighter;
+  return Player;
 }(); // Platform Class
 
 
@@ -560,8 +579,9 @@ var Platform = /*#__PURE__*/function () {
 
     _classCallCheck(this, Platform);
 
-    this.position = position, this.image = image, this.width = image.width, this.height = image.height;
-    this.width = 100, this.height = 50;
+    this.position = position, this.image = image, // this.width = image.width,
+    // this.height = image.height
+    this.width = 200, this.height = 50;
   }
 
   _createClass(Platform, [{
@@ -671,12 +691,26 @@ for (var _i2 = 0; _i2 <= 500; _i2++) {
     },
     image: platformImage
   }));
+}
+
+var airPlatforms = [];
+
+for (var _i3 = 0; _i3 <= 500; _i3++) {
+  if (_i3 % 3 === 0) {
+    airPlatforms.push(new Platform({
+      position: {
+        x: _i3 * 100,
+        y: Math.floor(Math.random() * 100 + 300)
+      },
+      image: platformImage
+    }));
+  }
 } // Player
 
 
-var player = new Fighter({
+var player = new Player({
   position: {
-    x: 100,
+    x: 1000,
     y: 0
   },
   velocity: {
@@ -726,179 +760,316 @@ var player = new Fighter({
       framesMax: 4
     }
   }
-}); // Enemies
+});
+var ghostImage = createImage(_img_ghost_shriek_png__WEBPACK_IMPORTED_MODULE_10__["default"]);
+var enemyImage = createImage(_img_enemy_alien_enemy_walk_png__WEBPACK_IMPORTED_MODULE_9__["default"]);
+var houndImage = createImage(_img_hell_hound_run_png__WEBPACK_IMPORTED_MODULE_11__["default"]); // Enemies
 
-var enemies = [new Fighter({
-  position: {
-    x: 100,
-    y: 0
-  },
-  velocity: {
-    x: 0,
-    y: 0
-  },
-  attackBox: {
-    position: {
-      x: 100,
-      y: 100
-    },
-    width: 100,
-    height: 50,
-    velocity: 20
-  },
-  attackBoxOffset: {
-    x: 0,
-    y: 113
-  },
-  image: _img_player_player_idle_png__WEBPACK_IMPORTED_MODULE_3__["default"],
-  scale: 2,
-  framesMax: 4,
-  framesHold: 18,
-  offset: {
-    x: 0,
-    y: -67
-  },
-  sprites: {
-    idle: {
-      imageSrc: _img_player_player_idle_png__WEBPACK_IMPORTED_MODULE_3__["default"],
-      framesMax: 4
-    },
-    run: {
-      imageSrc: _img_player_player_run_png__WEBPACK_IMPORTED_MODULE_4__["default"],
-      framesMax: 11
-    },
-    jump: {
-      imageSrc: _img_player_player_jump_png__WEBPACK_IMPORTED_MODULE_5__["default"],
-      framesMax: 6
-    },
-    shoot: {
-      imageSrc: _img_player_player_shoot_png__WEBPACK_IMPORTED_MODULE_6__["default"],
-      framesMax: 2
-    },
-    die: {
-      imageSrc: _img_player_player_die_png__WEBPACK_IMPORTED_MODULE_8__["default"],
-      framesMax: 4
-    }
+var enemies = [];
+
+for (var _i4 = 0; _i4 < 1000; _i4++) {
+  if (_i4 % 17 === 0) {
+    enemies.push(new Player({
+      position: {
+        x: _i4 * 100,
+        y: 0
+      },
+      velocity: {
+        x: -0.5,
+        y: 0
+      },
+      attackBox: {
+        position: {
+          x: 100,
+          y: 100
+        },
+        width: 100,
+        height: 50,
+        velocity: 20
+      },
+      attackBoxOffset: {
+        x: 0,
+        y: 113
+      },
+      image: enemyImage,
+      scale: 2,
+      framesMax: 6,
+      framesHold: 18,
+      offset: {
+        x: 0,
+        y: -83
+      },
+      sprites: {
+        idle: {
+          imageSrc: enemyImage,
+          framesMax: 6
+        },
+        run: {
+          imageSrc: enemyImage,
+          framesMax: 6
+        },
+        jump: {
+          imageSrc: enemyImage,
+          framesMax: 6
+        },
+        shoot: {
+          imageSrc: enemyImage,
+          framesMax: 6
+        },
+        die: {}
+      }
+    }));
   }
-})]; // enemy attack
 
-enemies.forEach(function (enemy) {
-  setInterval(function () {
-    enemy.shoot();
-  }, 200);
-}); // Animation Loop -----------------------------------------------------------------------
+  if (_i4 % 13 === 0) {
+    enemies.push(new Player({
+      position: {
+        x: _i4 * 100 + 600,
+        y: 150
+      },
+      velocity: {
+        x: -1,
+        y: 0
+      },
+      attackBox: {
+        position: {
+          x: 100,
+          y: 100
+        },
+        width: 100,
+        height: 50,
+        velocity: 20
+      },
+      attackBoxOffset: {
+        x: 0,
+        y: 113
+      },
+      image: ghostImage,
+      scale: 2,
+      framesMax: 4,
+      framesHold: 18,
+      offset: {
+        x: 0,
+        y: -60
+      },
+      canFall: false,
+      sprites: {
+        idle: {
+          imageSrc: ghostImage,
+          framesMax: 4
+        },
+        run: {
+          imageSrc: ghostImage,
+          framesMax: 4
+        },
+        jump: {
+          imageSrc: ghostImage,
+          framesMax: 4
+        },
+        shoot: {
+          imageSrc: ghostImage,
+          framesMax: 4
+        },
+        die: {}
+      }
+    }));
+  }
 
-function animate() {
-  requestAnimationFrame(animate);
-  ctx.fillStyle = 'black';
-  ctx.fillRect(0, 0, canvas.width, canvas.height); // draw backgrounds
+  if (_i4 % 27 === 0) {
+    enemies.push(new Player({
+      position: {
+        x: _i4 * 200 + 900,
+        y: 0
+      },
+      velocity: {
+        x: -3,
+        y: 0
+      },
+      attackBox: {
+        position: {
+          x: 100,
+          y: 100
+        },
+        width: 100,
+        height: 50,
+        velocity: 20
+      },
+      attackBoxOffset: {
+        x: 0,
+        y: 113
+      },
+      image: houndImage,
+      scale: 1,
+      framesMax: 4,
+      framesHold: 12,
+      offset: {
+        x: 0,
+        y: -65
+      },
+      sprites: {
+        idle: {
+          imageSrc: houndImage,
+          framesMax: 4
+        },
+        run: {
+          imageSrc: houndImage,
+          framesMax: 4
+        },
+        jump: {
+          imageSrc: houndImage,
+          framesMax: 4
+        },
+        shoot: {
+          imageSrc: houndImage,
+          framesMax: 4
+        },
+        die: {}
+      }
+    }));
+  }
+} // //enemy attack
+// enemies.forEach(enemy => {
+//   setInterval(() => {
+//     enemy.shoot()
+//   }, 200)
+// })
 
-  backgrounds.forEach(function (background) {
-    return background.update();
-  }); //platform collision   
 
-  platforms.forEach(function (platform) {
-    if (player.position.y + player.height <= platform.position.y && player.position.x + player.width >= platform.position.x && player.position.x <= platform.position.x + platform.width && player.position.y + player.height + player.velocity.y >= platform.position.y) {
-      player.velocity.y = 0;
-    }
+init();
+
+function init() {
+  // Animation Loop -----------------------------------------------------------------------
+  function animate() {
+    requestAnimationFrame(animate);
+    ctx.fillStyle = 'black';
+    ctx.fillRect(0, 0, canvas.width, canvas.height); // draw backgrounds
+
+    backgrounds.forEach(function (background) {
+      return background.update();
+    }); //platform collision   
+
+    platforms.forEach(function (platform) {
+      if (player.position.y + player.height <= platform.position.y && player.position.x + player.width >= platform.position.x && player.position.x <= platform.position.x + platform.width && player.position.y + player.height + player.velocity.y >= platform.position.y) {
+        player.velocity.y = 0;
+      }
+
+      enemies.forEach(function (enemy) {
+        if (enemy.position.y + enemy.height <= platform.position.y && enemy.position.x + enemy.width >= platform.position.x && enemy.position.x <= platform.position.x + platform.width && enemy.position.y + enemy.height + enemy.velocity.y >= platform.position.y) {
+          enemy.velocity.y = 0;
+        }
+      });
+    });
+    airPlatforms.forEach(function (platform) {
+      if (player.position.y + player.height <= platform.position.y && player.position.x + player.width >= platform.position.x && player.position.x <= platform.position.x + platform.width && player.position.y + player.height + player.velocity.y >= platform.position.y) {
+        player.velocity.y = 0;
+      }
+
+      enemies.forEach(function (enemy) {
+        if (enemy.position.y + enemy.height <= platform.position.y && enemy.position.x + enemy.width >= platform.position.x && enemy.position.x <= platform.position.x + platform.width && enemy.position.y + enemy.height + enemy.velocity.y >= platform.position.y) {
+          enemy.velocity.y = 0;
+        }
+      });
+    }); // draw platform
+
+    platforms.forEach(function (platform) {
+      platform.draw();
+    }); // draw air platforms
+
+    airPlatforms.forEach(function (platform) {
+      return platform.draw();
+    }); //Player movement 
+
+    player.velocity.x = 0;
+
+    if (keys.a.pressed && player.lastKey === 'a' && player.position.x >= 700) {
+      player.switchSprite('run');
+      player.velocity.x = -5;
+      player.lookingRight = false;
+    } else if (keys.d.pressed && player.lastKey === 'd' && player.position.x <= 1200) {
+      player.switchSprite('run');
+      player.velocity.x = 5;
+      player.lookingRight = true;
+    } else {
+      if (keys.d.pressed) {
+        player.switchSprite('run');
+        platforms.forEach(function (platform) {
+          return platform.position.x -= 5;
+        });
+        airPlatforms.forEach(function (platform) {
+          return platform.position.x -= 5;
+        });
+        backgrounds.forEach(function (background) {
+          background.position.x -= background.offset.velocity.x;
+        });
+        enemies.forEach(function (enemy) {
+          enemy.position.x -= 5;
+        });
+      } else if (keys.a.pressed && player.velocity.x !== 0) {
+        player.switchSprite('run');
+        player.lookingRight = false;
+        platforms.forEach(function (platform) {
+          return platform.position.x += 5;
+        });
+        airPlatforms.forEach(function (platform) {
+          return platform.position.x += 5;
+        });
+        backgrounds.forEach(function (background) {
+          background.position.x += background.offset.velocity.x;
+        });
+        enemies.forEach(function (enemy) {
+          enemy.position.x += 5;
+        });
+      } else if (player.velocity.y < 0) {
+        player.switchSprite('jump');
+      } else {
+        player.switchSprite('idle');
+      }
+
+      if (player.isAttacking) {
+        player.switchSprite('shoot');
+      }
+    } // if (player.dead) {
+    //   init()
+    // }
+    // enemy movement
+
 
     enemies.forEach(function (enemy) {
-      if (enemy.position.y + enemy.height <= platform.position.y && enemy.position.x + enemy.width >= platform.position.x && enemy.position.x <= platform.position.x + platform.width && enemy.position.y + enemy.height + enemy.velocity.y >= platform.position.y) {
-        enemy.velocity.y = 0;
+      enemy.velocity.x = enemy.velocity.x;
+    }); // detect for collision
+
+    enemies.forEach(function (enemy) {
+      if (rectangularCollision({
+        rectangle1: player,
+        rectangle2: enemy
+      }) && player.isAttacking) {
+        enemy.takeHit();
+        player.isAttacking = false;
+        console.log("enemy health: ".concat(enemy.health));
       }
-    });
-  }); // draw platform
 
-  platforms.forEach(function (platform) {
-    platform.draw();
-  }); //Player movement 
+      if (rectangularCollision({
+        rectangle1: enemy,
+        rectangle2: player
+      })) {
+        // player.health = 0
+        // player.dead = true
+        enemy.isAttacking = false;
+        console.log("player health: ".concat(player.health));
+      }
+    }); //update enemy
 
-  player.velocity.x = 0;
+    enemies.forEach(function (enemy) {
+      if (enemy.health > 0) {
+        enemy.update();
+      }
+    }); // update player 
 
-  if (keys.a.pressed && player.lastKey === 'a' && player.position.x >= 100) {
-    player.switchSprite('run');
-    player.velocity.x = -5;
-    player.lookingRight = false;
-  } else if (keys.d.pressed && player.lastKey === 'd' && player.position.x <= 400) {
-    player.switchSprite('run');
-    player.velocity.x = 5;
-    player.lookingRight = true;
-  } else {
-    if (keys.d.pressed) {
-      player.switchSprite('run');
-      platforms.forEach(function (platform) {
-        return platform.position.x -= 5;
-      });
-      backgrounds.forEach(function (background) {
-        background.position.x -= background.offset.velocity.x;
-      });
-      enemies.forEach(function (enemy) {
-        enemy.position.x -= 5;
-      });
-    } else if (keys.a.pressed) {
-      player.switchSprite('run');
-      player.lookingRight = false;
-      platforms.forEach(function (platform) {
-        return platform.position.x += 5;
-      });
-      backgrounds.forEach(function (background) {
-        background.position.x += background.offset.velocity.x;
-      });
-      enemies.forEach(function (enemy) {
-        enemy.position.x += 5;
-      });
-    } else if (player.velocity.y < 0) {
-      player.switchSprite('jump');
-    } else {
-      player.switchSprite('idle');
-    }
+    player.update();
+  }
 
-    if (player.isAttacking) {
-      player.switchSprite('shoot');
-    }
-  } // enemy movement
-
-
-  enemies.forEach(function (enemy) {
-    enemy.velocity.x = 0;
-
-    if (keys.ArrowLeft.pressed && enemy.lastKey === 'ArrowLeft' && enemy.position.x >= 5) {
-      enemy.velocity.x = -5;
-    } else if (keys.ArrowRight.pressed && enemy.lastKey === 'ArrowRight' && enemy.position.x + enemy.width <= canvas.width - 4) {
-      enemy.velocity.x = 5;
-    }
-  }); // detect for collision
-
-  enemies.forEach(function (enemy) {
-    if (rectangularCollision({
-      rectangle1: player,
-      rectangle2: enemy
-    })) {
-      enemy.takeHit();
-      player.isAttacking = false;
-      console.log("enemy health: ".concat(enemy.health));
-    }
-
-    if (rectangularCollision({
-      rectangle1: enemy,
-      rectangle2: player
-    })) {
-      player.takeHit();
-      enemy.isAttacking = false;
-      console.log("player health: ".concat(player.health));
-    }
-  }); //update enemy
-  // enemies.forEach(enemy => {
-  //   if (enemy.health > 0) {
-  //     enemy.update()
-  //   }
-  // })
-  // update player 
-
-  player.update();
-}
-
-animate(); // // enemy AI
+  animate();
+} // // enemy AI
 // const randomness = Math.floor(Math.random() * 10)
 // if (player.isAttacking && rectangularCollision({ rectangle1: player, rectangle2: enemy })) {
 //     if (randomness > 6) {
