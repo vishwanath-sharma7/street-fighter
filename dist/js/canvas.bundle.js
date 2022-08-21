@@ -125,6 +125,45 @@ __webpack_require__.r(__webpack_exports__);
 
 /***/ }),
 
+/***/ "./src/img/explosion-1.png":
+/*!*********************************!*\
+  !*** ./src/img/explosion-1.png ***!
+  \*********************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony default export */ __webpack_exports__["default"] = (__webpack_require__.p + "d126832e02adaaf614c47656a7a51dfd.png");
+
+/***/ }),
+
+/***/ "./src/img/explosion-3.png":
+/*!*********************************!*\
+  !*** ./src/img/explosion-3.png ***!
+  \*********************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony default export */ __webpack_exports__["default"] = (__webpack_require__.p + "6d86c1ca83e200ed812878dff6d907f8.png");
+
+/***/ }),
+
+/***/ "./src/img/explosion-animation.png":
+/*!*****************************************!*\
+  !*** ./src/img/explosion-animation.png ***!
+  \*****************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony default export */ __webpack_exports__["default"] = (__webpack_require__.p + "aabdbd20c50c3f84a47407050975d935.png");
+
+/***/ }),
+
 /***/ "./src/img/floor.png":
 /*!***************************!*\
   !*** ./src/img/floor.png ***!
@@ -263,11 +302,17 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _img_enemy_alien_enemy_walk_png__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! ../img/enemy/alien-enemy-walk.png */ "./src/img/enemy/alien-enemy-walk.png");
 /* harmony import */ var _img_ghost_shriek_png__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! ../img/ghost-shriek.png */ "./src/img/ghost-shriek.png");
 /* harmony import */ var _img_hell_hound_run_png__WEBPACK_IMPORTED_MODULE_11__ = __webpack_require__(/*! ../img/hell-hound-run.png */ "./src/img/hell-hound-run.png");
+/* harmony import */ var _img_explosion_1_png__WEBPACK_IMPORTED_MODULE_12__ = __webpack_require__(/*! ../img/explosion-1.png */ "./src/img/explosion-1.png");
+/* harmony import */ var _img_explosion_animation_png__WEBPACK_IMPORTED_MODULE_13__ = __webpack_require__(/*! ../img/explosion-animation.png */ "./src/img/explosion-animation.png");
+/* harmony import */ var _img_explosion_3_png__WEBPACK_IMPORTED_MODULE_14__ = __webpack_require__(/*! ../img/explosion-3.png */ "./src/img/explosion-3.png");
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
 function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
 
 function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); return Constructor; }
+
+
+
 
 
 
@@ -361,8 +406,14 @@ window.addEventListener('keyup', function (event) {
       keys.d.pressed = false;
       break;
   }
-}); // Classes ---------------------------------------------------------------------
+});
+
+function shootPlay() {
+  var shootAudio = new Audio('../audio/shootSound.mp3');
+  shootAudio.play();
+} // Classes ---------------------------------------------------------------------
 // Player Class 
+
 
 var Player = /*#__PURE__*/function () {
   function Player(_ref2) {
@@ -464,11 +515,9 @@ var Player = /*#__PURE__*/function () {
     key: "update",
     value: function update() {
       // to draw our player on every render
-      this.draw();
+      this.draw(); // if (!this.dead) {
 
-      if (!this.dead) {
-        this.animateFrames();
-      }
+      this.animateFrames(); // }
 
       this.attackBox.position.y = this.position.y; //movement
 
@@ -496,6 +545,7 @@ var Player = /*#__PURE__*/function () {
     value: function shoot() {
       var _this = this;
 
+      shootPlay();
       this.isAttacking = true;
       setTimeout(function () {
         _this.isAttacking = false;
@@ -504,7 +554,7 @@ var Player = /*#__PURE__*/function () {
   }, {
     key: "takeHit",
     value: function takeHit() {
-      this.health -= 30;
+      this.health -= 20;
 
       if (this.health <= 0) {
         this.switchSprite('die');
@@ -562,6 +612,7 @@ var Player = /*#__PURE__*/function () {
           if (this.image !== this.sprites.die.image) {
             this.image = this.sprites.die.image;
             this.framesMax = this.sprites.die.framesMax;
+            this.framesCurrent = 9;
           }
 
       }
@@ -730,9 +781,9 @@ var player = new Player({
     x: 0,
     y: 113
   },
-  image: _img_player_player_idle_png__WEBPACK_IMPORTED_MODULE_3__["default"],
+  // image: playerImage,
   scale: 2,
-  framesMax: 4,
+  // framesMax: 4,
   framesHold: 18,
   offset: {
     x: 0,
@@ -816,7 +867,10 @@ for (var _i4 = 0; _i4 < 1000; _i4++) {
           imageSrc: enemyImage,
           framesMax: 6
         },
-        die: {}
+        die: {
+          imageSrc: _img_explosion_1_png__WEBPACK_IMPORTED_MODULE_12__["default"],
+          framesMax: 8
+        }
       }
     }));
   }
@@ -870,7 +924,10 @@ for (var _i4 = 0; _i4 < 1000; _i4++) {
           imageSrc: ghostImage,
           framesMax: 4
         },
-        die: {}
+        die: {
+          imageSrc: _img_explosion_animation_png__WEBPACK_IMPORTED_MODULE_13__["default"],
+          framesMax: 9
+        }
       }
     }));
   }
@@ -878,7 +935,7 @@ for (var _i4 = 0; _i4 < 1000; _i4++) {
   if (_i4 % 27 === 0) {
     enemies.push(new Player({
       position: {
-        x: _i4 * 200 + 900,
+        x: _i4 * 200 + 1200,
         y: 0
       },
       velocity: {
@@ -923,7 +980,10 @@ for (var _i4 = 0; _i4 < 1000; _i4++) {
           imageSrc: houndImage,
           framesMax: 4
         },
-        die: {}
+        die: {
+          imageSrc: _img_explosion_3_png__WEBPACK_IMPORTED_MODULE_14__["default"],
+          framesMax: 10
+        }
       }
     }));
   }
@@ -933,144 +993,150 @@ for (var _i4 = 0; _i4 < 1000; _i4++) {
 //     enemy.shoot()
 //   }, 200)
 // })
+// init()
+// player.dead = true
+// Animation Loop -----------------------------------------------------------------------
 
 
-init();
+function animate() {
+  requestAnimationFrame(animate);
+  ctx.fillStyle = 'black';
+  ctx.fillRect(0, 0, canvas.width, canvas.height); // draw backgrounds
 
-function init() {
-  // Animation Loop -----------------------------------------------------------------------
-  function animate() {
-    requestAnimationFrame(animate);
-    ctx.fillStyle = 'black';
-    ctx.fillRect(0, 0, canvas.width, canvas.height); // draw backgrounds
+  backgrounds.forEach(function (background) {
+    return background.update();
+  }); //platform collision   
 
-    backgrounds.forEach(function (background) {
-      return background.update();
-    }); //platform collision   
+  platforms.forEach(function (platform) {
+    if (player.position.y + player.height <= platform.position.y && player.position.x + player.width >= platform.position.x && player.position.x <= platform.position.x + platform.width && player.position.y + player.height + player.velocity.y >= platform.position.y) {
+      player.velocity.y = 0;
+    }
 
-    platforms.forEach(function (platform) {
-      if (player.position.y + player.height <= platform.position.y && player.position.x + player.width >= platform.position.x && player.position.x <= platform.position.x + platform.width && player.position.y + player.height + player.velocity.y >= platform.position.y) {
-        player.velocity.y = 0;
+    enemies.forEach(function (enemy) {
+      if (enemy.position.y + enemy.height <= platform.position.y && enemy.position.x + enemy.width >= platform.position.x && enemy.position.x <= platform.position.x + platform.width && enemy.position.y + enemy.height + enemy.velocity.y >= platform.position.y) {
+        enemy.velocity.y = 0;
       }
-
-      enemies.forEach(function (enemy) {
-        if (enemy.position.y + enemy.height <= platform.position.y && enemy.position.x + enemy.width >= platform.position.x && enemy.position.x <= platform.position.x + platform.width && enemy.position.y + enemy.height + enemy.velocity.y >= platform.position.y) {
-          enemy.velocity.y = 0;
-        }
-      });
     });
-    airPlatforms.forEach(function (platform) {
-      if (player.position.y + player.height <= platform.position.y && player.position.x + player.width >= platform.position.x && player.position.x <= platform.position.x + platform.width && player.position.y + player.height + player.velocity.y >= platform.position.y) {
-        player.velocity.y = 0;
-      }
+  });
+  airPlatforms.forEach(function (platform) {
+    if (player.position.y + player.height <= platform.position.y && player.position.x + player.width >= platform.position.x && player.position.x <= platform.position.x + platform.width && player.position.y + player.height + player.velocity.y >= platform.position.y) {
+      player.velocity.y = 0;
+    }
 
-      enemies.forEach(function (enemy) {
-        if (enemy.position.y + enemy.height <= platform.position.y && enemy.position.x + enemy.width >= platform.position.x && enemy.position.x <= platform.position.x + platform.width && enemy.position.y + enemy.height + enemy.velocity.y >= platform.position.y) {
-          enemy.velocity.y = 0;
-        }
+    enemies.forEach(function (enemy) {
+      if (enemy.position.y + enemy.height <= platform.position.y && enemy.position.x + enemy.width >= platform.position.x && enemy.position.x <= platform.position.x + platform.width && enemy.position.y + enemy.height + enemy.velocity.y >= platform.position.y) {
+        enemy.velocity.y = 0;
+      }
+    });
+  }); // draw platform
+
+  platforms.forEach(function (platform) {
+    platform.draw();
+  }); // draw air platforms
+
+  airPlatforms.forEach(function (platform) {
+    return platform.draw();
+  }); //Player movement 
+
+  player.velocity.x = 0;
+
+  if (keys.a.pressed && player.lastKey === 'a' && player.position.x >= 700) {
+    player.switchSprite('run');
+    player.velocity.x = -5;
+    player.lookingRight = false;
+  } else if (keys.d.pressed && player.lastKey === 'd' && player.position.x <= 1200) {
+    player.switchSprite('run');
+    player.velocity.x = 5;
+    player.lookingRight = true;
+  } else {
+    if (keys.d.pressed) {
+      player.switchSprite('run');
+      platforms.forEach(function (platform) {
+        return platform.position.x -= 5;
       });
-    }); // draw platform
-
-    platforms.forEach(function (platform) {
-      platform.draw();
-    }); // draw air platforms
-
-    airPlatforms.forEach(function (platform) {
-      return platform.draw();
-    }); //Player movement 
-
-    player.velocity.x = 0;
-
-    if (keys.a.pressed && player.lastKey === 'a' && player.position.x >= 700) {
+      airPlatforms.forEach(function (platform) {
+        return platform.position.x -= 5;
+      });
+      backgrounds.forEach(function (background) {
+        background.position.x -= background.offset.velocity.x;
+      });
+      enemies.forEach(function (enemy) {
+        enemy.position.x -= 5;
+      });
+    } else if (keys.a.pressed && player.velocity.x !== 0) {
       player.switchSprite('run');
-      player.velocity.x = -5;
       player.lookingRight = false;
-    } else if (keys.d.pressed && player.lastKey === 'd' && player.position.x <= 1200) {
-      player.switchSprite('run');
-      player.velocity.x = 5;
-      player.lookingRight = true;
+      platforms.forEach(function (platform) {
+        return platform.position.x += 5;
+      });
+      airPlatforms.forEach(function (platform) {
+        return platform.position.x += 5;
+      });
+      backgrounds.forEach(function (background) {
+        background.position.x += background.offset.velocity.x;
+      });
+      enemies.forEach(function (enemy) {
+        enemy.position.x += 5;
+      });
+    } else if (player.velocity.y < 0) {
+      player.switchSprite('jump');
     } else {
-      if (keys.d.pressed) {
-        player.switchSprite('run');
-        platforms.forEach(function (platform) {
-          return platform.position.x -= 5;
-        });
-        airPlatforms.forEach(function (platform) {
-          return platform.position.x -= 5;
-        });
-        backgrounds.forEach(function (background) {
-          background.position.x -= background.offset.velocity.x;
-        });
-        enemies.forEach(function (enemy) {
-          enemy.position.x -= 5;
-        });
-      } else if (keys.a.pressed && player.velocity.x !== 0) {
-        player.switchSprite('run');
-        player.lookingRight = false;
-        platforms.forEach(function (platform) {
-          return platform.position.x += 5;
-        });
-        airPlatforms.forEach(function (platform) {
-          return platform.position.x += 5;
-        });
-        backgrounds.forEach(function (background) {
-          background.position.x += background.offset.velocity.x;
-        });
-        enemies.forEach(function (enemy) {
-          enemy.position.x += 5;
-        });
-      } else if (player.velocity.y < 0) {
-        player.switchSprite('jump');
-      } else {
-        player.switchSprite('idle');
-      }
+      player.switchSprite('idle');
+    }
 
-      if (player.isAttacking) {
-        player.switchSprite('shoot');
-      }
-    } // if (player.dead) {
-    //   init()
-    // }
-    // enemy movement
+    if (player.isAttacking) {
+      player.switchSprite('shoot');
+    }
+  } // enemy movement
 
 
-    enemies.forEach(function (enemy) {
-      enemy.velocity.x = enemy.velocity.x;
-    }); // detect for collision
+  enemies.forEach(function (enemy) {
+    enemy.velocity.x = enemy.velocity.x;
+  }); // detect for collision
 
-    enemies.forEach(function (enemy) {
-      if (rectangularCollision({
-        rectangle1: player,
-        rectangle2: enemy
-      }) && player.isAttacking) {
-        enemy.takeHit();
-        player.isAttacking = false;
-        console.log("enemy health: ".concat(enemy.health));
-      }
+  enemies.forEach(function (enemy) {
+    if (rectangularCollision({
+      rectangle1: player,
+      rectangle2: enemy
+    }) && player.isAttacking) {
+      enemy.takeHit();
+      player.isAttacking = false;
+      console.log("enemy health: ".concat(enemy.health));
+    }
 
-      if (rectangularCollision({
-        rectangle1: enemy,
-        rectangle2: player
-      })) {
-        // player.health = 0
-        // player.dead = true
-        enemy.isAttacking = false;
-        console.log("player health: ".concat(player.health));
-      }
-    }); //update enemy
+    if (rectangularCollision({
+      rectangle1: enemy,
+      rectangle2: player
+    })) {
+      enemy.isAttacking = false;
+      console.log("player health: ".concat(player.health));
+    }
+  }); // if (player.health === 0) {
+  //   console.log('Game Over')
+  // }
+  // //update enemy
+  // let executed = false;
 
-    enemies.forEach(function (enemy) {
-      if (enemy.health > 0) {
+  enemies.forEach(function (enemy) {
+    if (!enemy.dead) {
+      enemy.update();
+
+      if (enemy.health <= 0) {
+        enemy.velocity.y = 0;
+        enemy.velocity.x = 0;
         enemy.update();
+        setTimeout(function () {
+          enemy.dead = true;
+        }, 400);
       }
-    }); // update player 
+    }
+  }); // update player 
 
-    player.update();
-  }
+  player.update();
+}
 
-  animate();
-} // // enemy AI
-// const randomness = Math.floor(Math.random() * 10)
+animate(); // // enemy AI
+//  randomness = Math.floor(Math.random() * 10)
 // if (player.isAttacking && rectangularCollision({ rectangle1: player, rectangle2: enemy })) {
 //     if (randomness > 6) {
 //         enemy.velocity.y = -30

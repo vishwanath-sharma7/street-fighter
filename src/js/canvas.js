@@ -11,7 +11,9 @@ import playerDie from '../img/player/player-die.png'
 import enemyWalk from '../img/enemy/alien-enemy-walk.png'
 import ghostBoo from '../img/ghost-shriek.png'
 import houndrun from '../img/hell-hound-run.png'
-
+import death from '../img/explosion-1.png'
+import death2 from '../img/explosion-animation.png'
+import death3 from '../img/explosion-3.png'
 
 
 const canvas = document.querySelector('canvas')
@@ -106,12 +108,17 @@ window.addEventListener('keyup', (event) => {
 
 })
 
+function shootPlay(){
+
+  const shootAudio = new Audio('../audio/shootSound.mp3')
+  shootAudio.play()
+}
 
 // Classes ---------------------------------------------------------------------
 
 // Player Class 
 class Player {
-  constructor({ offset = { x: 0, y: 0 }, position, velocity, color = 'red', attackBoxOffset = 0, attackBox, image, scale, framesMax = 1, sprites, framesHold, framesCurrent, canFall = true }) {
+  constructor({ offset = { x: 0, y: 0 }, position, velocity, color = 'red',attackBoxOffset = 0, attackBox, image, scale, framesMax = 1, sprites, framesHold, framesCurrent, canFall = true }) {
     this.position = position
     this.velocity = velocity
     this.width = 50
@@ -204,9 +211,9 @@ class Player {
   update() {
     // to draw our player on every render
     this.draw()
-    if (!this.dead) {
+    // if (!this.dead) {
       this.animateFrames()
-    }
+    // }
 
     this.attackBox.position.y = this.position.y
     //movement
@@ -233,7 +240,9 @@ class Player {
     }
     
   }
+
     shoot() {
+      shootPlay()
     this.isAttacking = true
     setTimeout(() => {
       this.isAttacking = false
@@ -241,7 +250,7 @@ class Player {
   }
 
   takeHit() {
-    this.health -= 30
+    this.health -= 20
     if (this.health <= 0) {
       this.switchSprite('die')
     }
@@ -291,6 +300,7 @@ class Player {
         if (this.image !== this.sprites.die.image) {
           this.image = this.sprites.die.image
           this.framesMax = this.sprites.die.framesMax
+          this.framesCurrent = 9
           
         }
     }
@@ -337,8 +347,15 @@ class Background {
     this.draw()
   }
 }
-const backgroundImage = createImage(image)
-const backstructureImg = createImage(backstructures)
+
+
+
+
+
+
+
+let backgroundImage = createImage(image)
+let backstructureImg = createImage(backstructures)
 
 
 let backgrounds = []
@@ -385,7 +402,7 @@ for (let i = 0; i <= 50; i++) {
 
 //platform
 
-const platformImage = createImage(floor)
+let platformImage = createImage(floor)
 
 // const platforms = [
 //   new Platform({
@@ -415,37 +432,33 @@ for (let i = 0; i <= 500; i++) {
 let airPlatforms = []
 
 
-for( let i = 0; i<= 500; i++) {
-  if(i%3 === 0) {
+for (let i = 0; i <= 500; i++) {
+  if (i % 3 === 0) {
 
     airPlatforms.push(
       new Platform({
-        position:{x: i* 100, y: Math.floor(Math.random()*100 + 300)},
+        position: { x: i * 100, y: Math.floor(Math.random() * 100 + 300) },
         image: platformImage
       })
-      )
-    }
+    )
+  }
 }
 
 
 // Player
-const player = new Player({ 
+let player = new Player({
   position: { x: 1000, y: 0 },
   velocity: { x: 0, y: 0 },
   attackBox: {
     position: { x: 100, y: 100 },
     width: 100,
     height: 50,
-    velocity: 20,
-
-
-
-
+    velocity: 20,  
   },
   attackBoxOffset: { x: 0, y: 113 },
-  image: playerImage,
+  // image: playerImage,
   scale: 2,
-  framesMax: 4,
+  // framesMax: 4,
   framesHold: 18,
   offset: { x: 0, y: -67 },
   sprites: {
@@ -477,21 +490,20 @@ const player = new Player({
 })
 
 
-const ghostImage = createImage(ghostBoo)
-
-const enemyImage = createImage(enemyWalk)
-const houndImage = createImage(houndrun)
+let ghostImage = createImage(ghostBoo)
+let enemyImage = createImage(enemyWalk)
+let houndImage = createImage(houndrun)
 
 // Enemies
 let enemies = []
 
 
-  
-  for(let i = 0; i< 1000; i++) {
-    if(i % 17 === 0) {
-      
 
-      enemies.push(
+for (let i = 0; i < 1000; i++) {
+  if (i % 17 === 0) {
+
+
+    enemies.push(
       new Player({
         position: { x: i * 100, y: 0 },
         velocity: { x: -0.5, y: 0 },
@@ -500,7 +512,7 @@ let enemies = []
           width: 100,
           height: 50,
           velocity: 20,
-          
+
         },
         attackBoxOffset: { x: 0, y: 113 },
         image: enemyImage,
@@ -520,30 +532,33 @@ let enemies = []
           jump: {
             imageSrc: enemyImage,
             framesMax: 6,
-            
-        },
-        shoot: {
-          imageSrc: enemyImage,
-          framesMax: 6,
-        },
-        die: {
-          
+
+          },
+          shoot: {
+            imageSrc: enemyImage,
+            framesMax: 6,
+          },
+          die: {
+            imageSrc: death,
+            framesMax: 8,
+
+
+          }
+
+
         }
-        
-        
-      }
-      
-    }),
-    
+
+      }),
+
     )
-    
+
   }
-  
-  if ( i % 13=== 0 ) {
+
+  if (i % 13 === 0) {
     enemies.push(
-      
+
       new Player({
-        position: { x: i *100 + 600, y: 150 },
+        position: { x: i * 100 + 600, y: 150 },
         velocity: { x: -1, y: 0 },
         attackBox: {
           position: { x: 100, y: 100 },
@@ -558,7 +573,7 @@ let enemies = []
         framesMax: 4,
         framesHold: 18,
         offset: { x: 0, y: -60 },
-        canFall :false,
+        canFall: false,
         sprites: {
           idle: {
             imageSrc: ghostImage,
@@ -571,43 +586,45 @@ let enemies = []
           jump: {
             imageSrc: ghostImage,
             framesMax: 4,
-            
+
           },
           shoot: {
             imageSrc: ghostImage,
             framesMax: 4,
           },
           die: {
-            
+            imageSrc: death2,
+            framesMax: 9
+
           }
-          
-          
+
+
         }
-        
+
       }),
-      
-      )
-      
-    }
-    
-    if ( i % 27 === 0) {
-      enemies.push( 
-        new Player({
-          position: { x: i * 200 + 900, y: 0 },
-          velocity: { x: -3, y: 0 },
-          attackBox: {
-            position: { x: 100, y: 100 },
-            width: 100,
-            height: 50,
-            velocity: 20,
-            
-          },
-          attackBoxOffset: { x: 0, y: 113 },
-          image: houndImage,
-          scale: 1,
-          framesMax: 4,
-          framesHold: 12,
-          offset: { x: 0, y: -65 },
+
+    )
+
+  }
+
+  if (i % 27 === 0) {
+    enemies.push(
+      new Player({
+        position: { x: i * 200 + 1200, y: 0 },
+        velocity: { x: -3, y: 0 },
+        attackBox: {
+          position: { x: 100, y: 100 },
+          width: 100,
+          height: 50,
+          velocity: 20,
+
+        },
+        attackBoxOffset: { x: 0, y: 113 },
+        image: houndImage,
+        scale: 1,
+        framesMax: 4,
+        framesHold: 12,
+        offset: { x: 0, y: -65 },
         sprites: {
           idle: {
             imageSrc: houndImage,
@@ -620,26 +637,31 @@ let enemies = []
           jump: {
             imageSrc: houndImage,
             framesMax: 4,
-            
+
           },
           shoot: {
             imageSrc: houndImage,
             framesMax: 4,
           },
           die: {
-            
+            imageSrc: death3,
+            framesMax: 10
+
           }
-          
-          
+
+
         }
-        
+
       })
-      
-      
-      )
-    }
-    
+
+
+    )
   }
+
+}
+
+
+
   // //enemy attack
   // enemies.forEach(enemy => {
     //   setInterval(() => {
@@ -647,11 +669,12 @@ let enemies = []
       //   }, 200)
 // })
 
-init()
+
+// init()
 
 
+// player.dead = true
 
-function init() {
 
        
     // Animation Loop -----------------------------------------------------------------------
@@ -777,20 +800,13 @@ function init() {
         if (player.isAttacking) {
           player.switchSprite('shoot')
         }
-        
-        
-        
+       
       }
       
       
       
-      
-      
-      // if (player.dead) {
-
-      //   init()
-      // }
-      
+   
+    
       
       
       
@@ -814,19 +830,46 @@ function init() {
         }
         
         if (rectangularCollision({ rectangle1: enemy, rectangle2: player })) {
-          // player.health = 0
-          // player.dead = true
+        
           enemy.isAttacking = false
           console.log(`player health: ${player.health}`)
           
         }
       })
-      //update enemy
-      enemies.forEach(enemy => {
-        if (enemy.health > 0) {
-          enemy.update()
-        }
-      })
+
+      
+
+      // if (player.health === 0) {
+      //   console.log('Game Over')
+      // }
+      // //update enemy
+      // let executed = false;
+enemies.forEach(enemy=>{
+
+
+  if(!enemy.dead){    
+            enemy.update()
+         if (enemy.health <= 0) { 
+           enemy.velocity.y = 0
+
+          enemy.velocity.x = 0
+          enemy.update()  
+        setTimeout(() => {
+          enemy.dead = true
+
+        },400);        
+
+          }
+          
+          
+          
+          
+      }
+      
+    })
+
+     
+
       
       
       // update player 
@@ -837,10 +880,10 @@ function init() {
     animate()
  
   
-}
+
   
     // // enemy AI
-    // const randomness = Math.floor(Math.random() * 10)
+    //  randomness = Math.floor(Math.random() * 10)
     // if (player.isAttacking && rectangularCollision({ rectangle1: player, rectangle2: enemy })) {
       //     if (randomness > 6) {
         //         enemy.velocity.y = -30
