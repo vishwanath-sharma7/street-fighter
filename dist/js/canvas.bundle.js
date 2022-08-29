@@ -354,17 +354,7 @@ function rectangularCollision(_ref) {
   var rectangle1 = _ref.rectangle1,
       rectangle2 = _ref.rectangle2;
   return rectangle1.attackBox.position.x + rectangle1.attackBox.width >= rectangle2.position.x && rectangle1.attackBox.position.x <= rectangle2.position.x + rectangle2.width && rectangle1.attackBox.position.y + rectangle1.attackBox.height >= rectangle2.position.y && rectangle1.attackBox.position.y <= rectangle2.position.y + rectangle2.height;
-} // // collision detection for platform 
-// function platformCollision() {
-//   platforms.forEach(platform =>
-//   (
-//     player.position.y + player.height <= platform.position.y &&
-//     player.position.x + player.width >= platform.position.x &&
-//     player.position.x <= platform.position.x + platform.width && player.position.y + player.height + player.velocity.y >= platform.position.y
-//   )
-//   )
-// }
-
+}
 
 window.addEventListener('keydown', function (event) {
   switch (event.key) {
@@ -477,8 +467,6 @@ var Player = /*#__PURE__*/function () {
     key: "draw",
     value: function draw() {
       // draw out the player
-      // ctx.fillStyle = this.color
-      // ctx.fillRect(this.position.x, this.position.y, this.width, this.height)
       if (this.lookingRight) {
         ctx.drawImage(this.image, this.framesCurrent * (this.image.width / this.framesMax), 0, this.image.width / this.framesMax, this.image.height, this.position.x - this.offset.x, this.position.y - this.offset.y, this.image.width / this.framesMax * this.scale, this.image.height * this.scale);
       } else {
@@ -719,19 +707,7 @@ for (var _i = 0; _i <= 50; _i++) {
 } //platform
 
 
-var platformImage = createImage(_img_floor_png__WEBPACK_IMPORTED_MODULE_1__["default"]); // const platforms = [
-//   new Platform({
-//     position: { x: 0, y: 400 },
-//     image: platformImage
-//   }
-//   ),
-//   new Platform({
-//     position: { x: 200, y: 400 },
-//     image: platformImage
-//   }
-//   ),
-// ]
-
+var platformImage = createImage(_img_floor_png__WEBPACK_IMPORTED_MODULE_1__["default"]);
 var platforms = [];
 
 for (var _i2 = 0; _i2 <= 500; _i2++) {
@@ -1111,7 +1087,7 @@ function animate() {
       enemy.isAttacking = false;
       console.log("player health: ".concat(player.health));
     }
-  }); // if (player.health === 0) {
+  }); // if(player.health === 0) {
   //   console.log('Game Over')
   // }
   // //update enemy

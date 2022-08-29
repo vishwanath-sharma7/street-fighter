@@ -52,17 +52,6 @@ function rectangularCollision({ rectangle1, rectangle2 }) {
 }
 
 
-// // collision detection for platform 
-// function platformCollision() {
-
-//   platforms.forEach(platform =>
-//   (
-//     player.position.y + player.height <= platform.position.y &&
-//     player.position.x + player.width >= platform.position.x &&
-//     player.position.x <= platform.position.x + platform.width && player.position.y + player.height + player.velocity.y >= platform.position.y
-//   )
-//   )
-// }
 
 window.addEventListener('keydown', (event) => {
   switch (event.key) {
@@ -154,8 +143,7 @@ class Player {
   }
   draw() {
     // draw out the player
-    // ctx.fillStyle = this.color
-    // ctx.fillRect(this.position.x, this.position.y, this.width, this.height)
+  
     if (this.lookingRight) {
       ctx.drawImage(
         this.image,
@@ -308,11 +296,6 @@ class Player {
 
 }
 
-
-
-
-
-
 // Platform Class
 class Platform {
   constructor({ position, image }) {
@@ -404,19 +387,7 @@ for (let i = 0; i <= 50; i++) {
 
 let platformImage = createImage(floor)
 
-// const platforms = [
-//   new Platform({
-//     position: { x: 0, y: 400 },
-//     image: platformImage
-//   }
-//   ),
-//   new Platform({
-//     position: { x: 200, y: 400 },
-//     image: platformImage
 
-//   }
-//   ),
-// ]
 
 let platforms = []
 
@@ -839,7 +810,7 @@ for (let i = 0; i < 1000; i++) {
 
       
 
-      // if (player.health === 0) {
+      // if(player.health === 0) {
       //   console.log('Game Over')
       // }
       // //update enemy
